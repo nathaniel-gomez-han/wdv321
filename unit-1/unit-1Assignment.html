@@ -2,9 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!--
+        Author: Nathaniel Han
+        Date: January 23 2023
+    -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WDV321 Advanced JavaScript - Unit-1</title>
+    <script>
+        const user = {
+            userName: "Mary",
+            fontColor: "black",
+            bgColor: "green",
+        }
+
+        function startup() {
+            let body = document.querySelector("body");
+            let header = document.querySelector("header");
+            
+            let welcomeName = document.querySelector("#welcome-name");
+            welcomeName.innerHTML = user.userName;
+
+            let copyrightYear = document.querySelector("#copyright-year");
+            let currentYear = new Date().getFullYear();
+            copyrightYear.innerHTML = currentYear;
+            
+            let colors = ["red", "blue", "green", "yellow", "orange", "white"];
+            
+            let colorSelect = document.querySelector("#color-select");
+            let colorSelectWarning = document.querySelector("#color-warning");
+            for (let i = 0; i < colors.length; i++) {
+                let newOption = document.createElement("option");
+                let capitalizedColorName = colors[i].charAt(0).toUpperCase() + colors[i].slice(1)
+                newOption.value = colors[i];
+                newOption.innerHTML = capitalizedColorName;
+                colorSelect.add(newOption);
+            };
+
+            colorSelect.onchange = function() {
+                if (colorSelect.value == user.bgColor) {
+                        colorSelectWarning.style.display = "initial";
+                } else {
+                    colorSelectWarning.style.display = "none ";
+                    body.style.background = colorSelect.value;
+                    header.style.borderColor = colorSelect.value;
+                    user.bgColor = colorSelect.value;
+                }
+            };
+
+            colorSelect.onfocus = function() {
+                colorSelect.selectedIndex = -1;
+                colorSelect.blur();
+            };
+
+            let displayPreferencesButton = document.querySelector("#display-preferences-button");
+            displayPreferencesButton.onclick = function() {
+                console.log(user);
+            };
+        };
+    </script>
     <style>
         body {
             background-color: brown;
@@ -31,10 +87,14 @@
             text-align: center;
         }
 
-
+        .warning {
+            display: none;
+            margin-left: 5px;
+            color: red;
+        }
     </style>
 </head>
-<body>
+<body onload="startup()">
     <div id="container">
 
         <header>
@@ -43,22 +103,22 @@
         </header>
 
         <main>
-            <h2>Welcome back NAME</h2>
+            <h2>Welcome back <span id="welcome-name">NAME</span></h2>
             <h3>Please Set Your Preferences</h3>
 
             <p>
-                Choose your background color
-                <select>
-                </select>
+                <label for="color-select">Choose your background color</label>
+                <select id="color-select" name="color-select"></select>
+                <span id="color-warning" class="warning">Please select a different color.</span>
             </p>
 
             <p>
-                <button>Display Preferences</button>
+                <button id="display-preferences-button">Display Preferences</button>
             </p>
         </main>
 
         <footer>
-            <p>Copyright &copy;DATE All rights reserved</p>
+            <p>Copyright &copy;<span id="copyright-year">DATE</span> All rights reserved</p>
         </footer>
 
     </div>
