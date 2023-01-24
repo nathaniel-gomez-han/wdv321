@@ -16,10 +16,7 @@
             bgColor: "green",
         }
 
-        function startup() {
-            let body = document.querySelector("body");
-            let header = document.querySelector("header");
-            
+        function pageLoad() {
             let welcomeName = document.querySelector("#welcome-name");
             welcomeName.innerHTML = user.userName;
 
@@ -31,6 +28,10 @@
             
             let colorSelect = document.querySelector("#color-select");
             let colorSelectWarning = document.querySelector("#color-warning");
+            let newOption = document.createElement("option");
+            newOption.value = "";
+            newOption.innerHTML = "Please select a color";
+            colorSelect.add(newOption);
             for (let i = 0; i < colors.length; i++) {
                 let newOption = document.createElement("option");
                 let capitalizedColorName = colors[i].charAt(0).toUpperCase() + colors[i].slice(1)
@@ -39,27 +40,34 @@
                 colorSelect.add(newOption);
             };
 
+            //NOTE: If the customer selects the default option then the background color should stay the current value of the user's bgColor property.
             colorSelect.onchange = function() {
                 if (colorSelect.value == user.bgColor) {
-                        colorSelectWarning.style.display = "initial";
+                    colorSelectWarning.style.display = "initial";
+                } else if (colorSelect.value == "") {
+                    colorSelectWarning.style.display = "none ";
                 } else {
                     colorSelectWarning.style.display = "none ";
-                    body.style.background = colorSelect.value;
-                    header.style.borderColor = colorSelect.value;
+                    setBackgroundColor(colorSelect.value);
                     user.bgColor = colorSelect.value;
                 }
             };
 
-            colorSelect.onfocus = function() {
-                colorSelect.selectedIndex = -1;
-                colorSelect.blur();
-            };
+            colorSelect.value = user.bgColor;
+            setBackgroundColor(user.bgColor);
 
             let displayPreferencesButton = document.querySelector("#display-preferences-button");
             displayPreferencesButton.onclick = function() {
                 console.log(user);
             };
-        };
+        }
+
+        function setBackgroundColor(inColor) {
+            let body = document.querySelector("body");
+            let header = document.querySelector("header");
+            body.style.background = inColor;
+            header.style.borderColor = inColor;
+        }
     </script>
     <style>
         body {
@@ -94,7 +102,7 @@
         }
     </style>
 </head>
-<body onload="startup()">
+<body onload="pageLoad()">
     <div id="container">
 
         <header>
@@ -109,7 +117,7 @@
             <p>
                 <label for="color-select">Choose your background color</label>
                 <select id="color-select" name="color-select"></select>
-                <span id="color-warning" class="warning">Please select a different color.</span>
+                <span id="color-warning" class="warning">This is already the current background color. Try selecting another!</span>
             </p>
 
             <p>
