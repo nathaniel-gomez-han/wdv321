@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+
+<style>
+
+	#div1	{
+		background-color:blue;	
+	}
+	#div2	{
+		background-color:green;	
+	}
+	#div3	{
+		background-color:red;	
+	}
+
+	[name=replaceDiv2] {
+		display:none;
+	}
+
+	/* Added styling for the color picker. */
+	#newDivControls {
+		position: relative;
+	}
+	#newDivControls input[type=color] {
+		position: absolute;
+		height: 100%;
+		margin-left: 5px;
+	}
+</style>
+
+<script>
+	let divCount = 3;
+
+
+	function pageSetup(){
+		//everything I need to do once the page is fully loaded into the document object
+
+		document.querySelector("[name=hide]").onclick = hideDiv2;
+		document.querySelector("[name=show]").onclick = showDiv2;
+
+		//console.log( document.querySelector("#div1").style.backgroundColor );
+		//console.log( document.querySelector("#div2").style.backgroundColor );
+
+		document.querySelector("[name=displayNone]").onclick = noneDiv2;
+		document.querySelector("[name=displayBlock]").onclick = blockDiv2;
+
+		document.querySelector("[name=removeDiv2]").onclick = removeDiv2;
+		document.querySelector("[name=replaceDiv2").onclick = replaceDiv2;
+
+		document.querySelector("[name=addDiv]").onclick = addDivision;
+		document.querySelector("[name=removeDiv]").onclick = removeDivision;
+
+		divCount = document.querySelector("#divList").childElementCount;
+	}
+
+	function hideDiv2(){
+		 //alert("inside hideDiv2()");
+		document.querySelector("#div2").style.visibility = "hidden";
+	}
+
+	function showDiv2(){
+		//alert("inside showDiv2()");
+		document.querySelector("#div2").style.visibility = "visible";
+	}
+
+	function noneDiv2(){
+		document.querySelector("#div2").style.display = "none";
+	}
+
+	function blockDiv2(){
+		document.querySelector("#div2").style.display = "block";
+	}
+
+	function removeDiv2(){
+		document.querySelector("#div2").remove();
+		
+		//turn on the replace div2 button
+		document.querySelector("[name=replaceDiv2").style.display = "inline";
+	}
+
+	function replaceDiv2(){
+		//create the div object
+		// style it to what it was
+		// add to document object
+
+		let newDiv = document.createElement("div"); 
+		newDiv.id = "div2";		//will create the id property of the object
+		console.log(newDiv);
+
+		let divH3 = document.createElement("h3");
+		divH3.innerHTML = "Division 2";
+		console.log(divH3);
+
+		newDiv.appendChild(divH3);
+
+		console.log(newDiv);
+
+		// We need to insert into the added #divList section instead of the body so this will still work.
+		document.querySelector("#divList").insertBefore(newDiv, document.querySelector("#div3"))
+
+		//remove the replace button AFTER you have replaced the div 
+		document.querySelector("[name=replaceDiv2").style.display = "none";
+	}
+
+	/*
+		Add a button that would make new divisions on this page
+
+		where would it show up? after the last div in the group/list displayed
+		what number would it be? 4, 5, 6, etc.  +1 to current number
+		what color should it be? 
+			allow user to select from list
+			limit colors to a group that rotates
+			random color from list
+			random color from existing colors (red, green, blue)
+			use the same colors in the same order as the original (blue green red, blue green red...)
+		how many? is there a limit?
+			set a cap/variable that can be changed if needed (reasonable check)
+			allow customer to set the number, UI input
+
+	*/
+	function addDivision() {
+		const divListSection = document.querySelector("#divList");
+		const newDivColorPicker = document.querySelector("#newDivColor");
+		const divCap = document.querySelector("#divCap");
+
+		if (divCount < divCap.value) {
+			divCount++;
+			
+			const newDiv = document.createElement("div");
+			newDiv.id = "div" + divCount;
+			newDiv.style.backgroundColor = newDivColorPicker.value;
+			
+			const newDivH3 = document.createElement("h3");
+			newDivH3.innerHTML = "Division " + divCount;
+			
+			newDiv.appendChild(newDivH3);
+			divListSection.appendChild(newDiv);
+		} else {
+			alert("Cannot exceed the maximum of "+ divCap.value + " divisions.");
+		}
+	}
+
+	function removeDivision() {
+		const divListSection = document.querySelector("#divList");
+		if (divCount > 3) {
+			divListSection.lastElementChild.remove();
+			divCount--;
+		} else {
+			alert("Cannot remove any more divisions.");
+		}
+	}
+
+</script>
+
+
+</head>
+
+<body onload="pageSetup()">
+
+	<h1>WDV321 Advanced Javascript</h1>
+    <h2>Dynamic Page Structure</h2>
+    
+	<section id="divList">
+		<div id="div1" style="visibility:visible">
+			<h3>Division 1</h3>
+		</div>
+		
+		<div id="div2">
+			<h3>Division 2</h3>
+		</div>
+		
+		<div id="div3">
+			<h3>Division 3</h3>
+		</div>
+	</section>
+
+	<p>
+    	<input name="hide" type="button" value="Hide Division 2"> 
+    	<input name="show" type="button" value="Show Division 2">
+    </p>
+    
+    <p>
+    	<input name="displayNone" type="button" value="Remove Division 2">
+        <input name="displayBlock" type="button" value="Add Division 2">
+    </p>
+
+	<p>
+		<button name="removeDiv2">Remove Div2</button>
+		<button name="replaceDiv2">Replace Div2</button>
+	</p>
+
+	<!-- Added HTML so the user can set a cap on the number of Divs and pick their background colors. -->
+	<p id="newDivControls">
+		<p>
+			<label for="divCap">Set the maximum number of DIVs:</label>
+			<input id="divCap" type="number" value="7" min="3" >
+		</p>
+		<p>
+			<label for="newDivColor">Background color for new DIVs: </label>
+			<input type="color" id="newDivColor" name="newDivColor" value="#EC8413" aria-label="New Division Background Color">
+		</p>
+	</p>
+
+	<!-- Added HTML for a background color picker. -->
+	<p>
+		<button name="addDiv">Add Division</button>
+	</p>
+
+	<!-- Added HTML to let the user remove the divisions they add. -->
+	<p>
+		<button name="removeDiv">Remove Last Division</button>
+	</p>
+
+
+</body>
+</html>
