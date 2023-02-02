@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--
+  Author: Nathaniel Han
+  Date: February 2 2023
+-->
+<title>WDV321 Advanced Javascript Dynamic Form Example</title>
+
+<script>
+
+const productLabels = ["Pen","Paper","Pencil"];
+const productValues = ["Bic Roller","500ct 90","No. 2 Lead", "Gel Pen"];
+
+const colorLabels = ["Red","Yellow","Green"];
+const colorValues = ["bright red","gold","sea green"];
+
+function pageLoad() {
+  const addProductsRadio = document.querySelector("#addProducts");
+  const addColorsRadio = document.querySelector("#addColors");
+  const displayItemsSelect = document.querySelector("#displayItems");
+
+  addProductsRadio.onclick = function() {
+    removeChildren(displayItemsSelect);
+    let defaultOption = document.createElement("option");
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.innerHTML = "Select a product";
+    displayItemsSelect.append(defaultOption);
+    for(let i = 0; i < productValues.length; i++) {
+      let newOption = document.createElement("option");
+      newOption.value = productValues[i];
+      newOption.innerHTML = productLabels[i] ? productLabels[i] : productValues[i];
+      displayItemsSelect.append(newOption);
+    }
+  };
+
+  addColorsRadio.onclick = function() {
+    removeChildren(displayItemsSelect);
+    let defaultOption = document.createElement("option");
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.innerHTML = "Select a color";
+    displayItemsSelect.append(defaultOption);
+    for(let i = 0; i < colorValues.length; i++) {
+      let newOption = document.createElement("option");
+      newOption.value = colorValues[i];
+      newOption.innerHTML = colorLabels[i] ? colorLabels[i] : colorValues[i];
+      displayItemsSelect.append(newOption);
+    }
+  };
+
+  function removeChildren(inNode) {
+    while (inNode.firstChild) {
+      inNode.removeChild(inNode.lastChild);
+    }
+  }
+}
+
+</script>
+
+</head>
+
+<body onload="pageLoad()">
+<h1>WDV321 Advanced Javascript</h1>
+<h3>Dynamic Form Example</h3>
+<p>
+  <label for="addProducts">Add Products:</label>
+  <input type="radio" name="radio" id="addProducts" value="addProducts" />
+</p>
+<p>
+  <label for="addColors">Add Colors:</label>
+  <input type="radio" name="radio" id="addColors" value="addColors" />
+</p>
+<p><label for name="displayItems">Result Drop Down Box:</label></p>
+<p>
+  <select name="displayItems" id="displayItems">
+    <option value="" selected>Select a type of item to add</option>
+  </select>
+</p>
+
+
+
+
+
+
+<p>&nbsp;</p>
+<p>Example Drop Down Lists</p>
+
+<p>
+  <select name="example2" id="exampleProducts">
+    <option value="bright red">Red</option>
+    <option value="gold">Yellow</option>
+    <option value="sea green">Green</option>
+  </select>
+</p>
+<p>
+  <select name="example1" id="exampleColors">
+    <option value="Bic Roller">Pen</option>
+    <option value="500ct 90">Paper</option>
+    <option value="No. 2 Lead">Pencil</option>
+  </select>
+</p>
+</body>
+</html>
