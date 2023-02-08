@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!--
+            Author: Nathaniel Han
+            Date: February 7 2023
+        -->
+        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nathaniel's WDV321 Homework Page</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32"><!-- 32×32 -->
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bubbles.css">
+		<style>
+			#contactForm {
+				margin-bottom: 2em;
+			}
+		</style>
+        <script src="/js/bubbles.js"></script>
+		<script>
+			function pageLoad() {
+				const contactTypeSelect = document.querySelector("#contactType");
+				const dynamicFields = document.querySelector("#dynamicFields");
+				const divComplaints = document.querySelector("#divComplaints");
+				const divTechProblems = document.querySelector("#divTechProblems");
+				const divProductIssues = document.querySelector("#divProductIssues");
+
+				const dynamicFieldMap = {
+					C: divComplaints,
+					T: divTechProblems,
+					P: divProductIssues
+				};
+				
+				contactTypeSelect.onchange = function() {
+					// Hide all the possible fields.
+					for (const dynamicFormDiv of dynamicFields.children) {
+						dynamicFormDiv.classList.add("hidden");
+					}
+
+					// Show the selected field.
+					let contactTypeValue = contactTypeSelect.value;
+					let dynamicFormDiv = dynamicFieldMap[contactTypeValue];
+					if (dynamicFormDiv) {
+						dynamicFormDiv.classList.remove("hidden");
+					}
+				};
+			}
+		</script>
+		
+    </head>
+    <body onload="pageLoad()">
+        <div class="body-bg"></div>
+		<nav>
+            <div class="site-logo">
+                <a href="/" aria-label="Return to the home page">
+                    <lottie-player role="img" aria-label="NGH logo" autoplay mode="normal" src="/img/ngh-logo.json"></lottie-player>
+                </a>
+            </div>
+            <div class="nav-links">
+			    <a href="../wdv321Homework.html">&lt; Back</a>
+            </div>
+        </nav>
+        <main>
+			<h1>WDV321 Advanced Javascript</h1>
+			<h2>6-1 Dynamic Structure - Assignment</h2>
+			<p>Use this page as the basis for your assignment. Given the drop down list provided on this page please do the following things.</p>
+			<form id="contactForm" name="contactForm" method="post" action="#">
+				<p>
+					<label>Reason For Contact:
+						<select name="contactType" id="contactType">
+							<option value="" selected disabled>Select a Reason</option>
+							<option value="C">Complaints</option>
+							<option value="T">Technical Problems</option>
+							<option value="P">Product Issues</option>
+						</select>
+					</label>
+				</p>
+				<div id="dynamicFields">
+					<div id="divComplaints" class="hidden">
+						<label for="complaints">Select a complaint:</label>
+						<select name="complaints" id="complaints">
+							<option value="purchaseNotArrived">My purchase hasn't arrived yet</option>
+							<option value="wrongProduct">I received the wrong product</option>
+							<option value="damagedProduct">The product arrived damaged</option>
+							<option value="outOfStock">The product I want is out of stock</option>
+						</select>
+					</div>
+					<div id="divTechProblems" class="hidden">
+						Select the technical problems you are facing:<br>
+						<input type="checkbox" name="cantTurnOn" id="cantTurnOn">
+						<label for="cantTurnOn">The product won't turn on.</label><br>
+						<input type="checkbox" name="onButUnresponsive" id="onButUnresponsive">
+						<label for="onButUnresponsive">The product is on but unresponsive to input.</label><br>
+						<input type="checkbox" name="brokenSpeaker" id="brokenSpeaker">
+						<label for="brokenSpeaker">The speaker isn't working.</label><br>
+						<input type="checkbox" name="cantSleep" id="cantSleep">
+						<label for="cantSleep">The product doesn't enter sleep mode after 5 minutes.</label>
+					</div>
+					<div id="divProductIssues" class="hidden">
+						Select a product issue:<br>
+						<input type="radio" name="productIssues" id="missingPart">
+						<label for="missingPart">The product is missing a part.</label><br>
+						<input type="radio" name="productIssues" id="misprint">
+						<label for="misprint">A part's printed decal was applied incorrectly</label><br>
+						<input type="radio" name="productIssues" id="miscolor">
+						<label for="miscolor">The product includes a part of the wrong color.</label><br>
+						<input type="radio" name="productIssues" id="productBroke">
+						<label for="productBroke">The product broke after minimal use.</label>
+					</div>
+				</div>
+			</form>
+			<hr class="solid-rule">
+			<p>Create the content areas on the page.</p>
+			<ol>
+				<li>Create a div that contains a new drop down list with at least four common Complaints to a company. </li>
+				<li>Create a div that contains four Technical Problems displayed as a  set of checkboxes. </li>
+				<li>Create a div that contains four Product Issues displayed as a set of radio buttons.</li>
+				<li>Use the display property to remove these content containers from the page.</li>
+			</ol>
+			<p>Based on the selection from the &quot;Reason For Contact&quot; dynamically display the requested set of followup questions on the page using the display property.</p>
+			<p>You are welcome to change the content, layout and style of this page as desired. </p>
+		</main>
+	</body>
+</html>
