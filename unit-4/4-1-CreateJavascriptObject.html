@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!--
+            Author: Nathaniel Han
+            Date: February 7 2023
+        -->
+        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nathaniel's WDV321 Homework Page</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32"><!-- 32×32 -->
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bubbles.css">
+        <script src="/js/bubbles.js"></script>
+		<script>
+			const jsJavaBook = {
+                isbn: "0-596-00016-2",
+                title: "Java and XML",
+                price: 39.95,
+                publisher: "O'Reilly &amp; Associates",
+                authors: [
+                    {
+                        firstName: "Brett",
+                        lastName: "McLaughlin"
+                    }
+                ],
+                copyright: 2000,
+                comments: "Update required"
+            };
+
+            const jsVBBook = {
+                isbn: "1-861003-32-3",
+                title: "Professional Visual Basic 6 XML",
+                price: 49.99,
+                publisher: "Wrox Press",
+                authors: [
+                    {
+                        firstName: "James",
+                        lastName: "Briss"
+                    },
+                    {
+                        firstName: "Tuen",
+                        lastName: "Duynstee"
+                    }
+                ],
+                copyright: 2000,
+                comments: "Outdated text. Switch to C#"
+            };
+            
+            const JsTextbooks = [jsJavaBook, jsVBBook];
+
+            function displayBook(inBook) {
+                const formatter = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'});
+                let formattedPrice = formatter.format(inBook.price);
+
+                let formattedAuthors = inBook.authors[0].firstName + " " + inBook.authors[0].lastName;
+                for (let i = 1; i < inBook.authors.length; i++) {
+                    formattedAuthors += ", " + inBook.authors[i].firstName + " " + inBook.authors[i].lastName;
+                }
+
+                document.write(
+                    "ISBN: " + inBook.isbn + "<br>" +
+                    "Title: " + inBook.title + "<br>" +
+                    "Price: " + formattedPrice + "<br>" +
+                    "Publisher: " + inBook.publisher + "<br>" +
+                    "Authors: " + formattedAuthors
+                );
+            }
+		</script>
+    </head>
+    <body onload="themeLoad()">
+        <div class="body-bg"></div>
+		<nav>
+            <div class="site-logo">
+                <a href="/" aria-label="Return to the home page">
+                    <lottie-player role="img" aria-label="NGH logo" autoplay mode="normal" src="/img/ngh-logo.json"></lottie-player>
+                </a>
+            </div>
+            <div class="nav-links">
+			    <a href="../wdv321Homework.html">&lt; Back</a>
+            </div>
+        </nav>
+        <main>
+			<h1>WDV321 Advanced Javascript</h1>
+            <h2>4-1: Create Javascript Object</h2>
+			<dl>
+                <dt>jsJavaBook</dt>
+                <dd>
+                    <script>displayBook(jsJavaBook);</script>
+                </dd>
+                <dt>jsVBBook</dt>
+                <dd>
+                    <script>displayBook(jsVBBook);</script>
+                </dd>
+                <dt>jsTextbooks</dt>
+                <dd>
+                    <script>document.write(JSON.stringify(JsTextbooks));</script>
+                </dd>
+            </dl>
+		</main>
+	</body>
+</html>
