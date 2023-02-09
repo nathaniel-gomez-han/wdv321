@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <!--
             Author: Nathaniel Han
-            Date: February 8 2023
+            Date: February 7 2023
         -->
         <meta http-equiv="X-UA-Compatible" content ="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WDV 321 4-1: Create Javascript Object</title>
+        <title>WDV 321 4-2: Create JSON Object</title>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
         <link rel="icon" href="/favicon.ico" sizes="16x16 32x32"><!-- 32×32 -->
         <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -56,6 +56,11 @@
             
             const JsTextbooks = [jsJavaBook, jsVBBook];
 
+            // Convert the Javascript Objects to JSON
+            const JavaBook = JSON.stringify(jsJavaBook);
+            const VB6Book = JSON.stringify(jsVBBook);
+            const textBooks = JSON.stringify(JsTextbooks);
+
             function displayBook(inBook) {
                 const formatter = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'});
                 let formattedPrice = formatter.format(inBook.price);
@@ -89,19 +94,21 @@
         </nav>
         <main>
 			<h1>WDV321 Advanced Javascript</h1>
-            <h2>4-1: Create Javascript Object</h2>
+            <h2>4-2: Create JSON Object</h2>
 			<dl>
                 <dt>jsJavaBook</dt>
                 <dd>
-                    <script>displayBook(jsJavaBook);</script>
+                    <script>document.write(JavaBook);</script>
+                    <p><script>displayBook(JSON.parse(JavaBook));</script></p>
                 </dd>
                 <dt>jsVBBook</dt>
                 <dd>
-                    <script>displayBook(jsVBBook);</script>
+                    <script>document.write(VB6Book);</script>
+                    <p><script>displayBook(JSON.parse(VB6Book));</script></p>
                 </dd>
                 <dt>jsTextbooks</dt>
                 <dd>
-                    <script>document.write(JSON.stringify(JsTextbooks));</script>
+                    <script>document.write(textBooks);</script>
                 </dd>
             </dl>
 		</main>
