@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"></meta>
+        <!--
+            Author: Nathaniel Han
+            Date: February 27 2023
+        -->
+        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>5-1: Cookie Handling - Home</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32"><!-- 32×32 -->
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bubbles.css">
+        <script src="/js/bubbles.js"></script>
+        <script src="/js/cookieHandler.js"></script>
+        <script>
+            function pageLoad() {
+                // Create or increment the cookie the tracks how many times the homepage has been visited.
+                let homeHits = parseInt(getCookie("homeHits"));
+                if(!homeHits) {
+                    setCookie("homeHits", 1);
+                } else {
+                    setCookie("homeHits", homeHits + 1);
+                }
+                
+                // Create a session cookie for the date and time the homepage was visited.
+                let today = new Date();
+                setCookie("visitTime", today.toUTCString(), 0);
+
+                let authCheckbox = document.querySelector("#auth");
+                let authExpiration = getCookie("authExpiration");
+                if(authExpiration) {
+                    authCheckbox.checked = true;
+                    authCheckbox.ariaChecked = true;
+                }
+                authCheckbox.oninput = function() {
+                    if(authCheckbox.checked) {
+                        authCheckbox.ariaChecked = true;
+                        let daysToExpire = 7;
+                        let expirationDate = new Date();
+                        expirationDate.setTime(expirationDate.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
+                        setCookie("authExpiration", expirationDate.toUTCString(), daysToExpire);
+                    } else {
+                        authCheckbox.ariaChecked = false;
+                        deleteCookie("authExpiration");
+                    }
+                };
+            }
+        </script>
+    </head>
+    <body onload="themeLoad(); pageLoad();">
+        <div class="body-bg"></div>
+        <nav>
+            <div class="site-logo">
+                <a href="/" aria-label="Return to the home page">
+                    <lottie-player role="img" aria-label="NGH logo" autoplay mode="normal" src="/img/ngh-logo.json"></lottie-player>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../wdv321Homework.html">&lt; Back</a>
+            </div>
+        </nav>
+        <main>
+            <h1>WDV 321 | 5-1: Cookie Handling</h1>
+            <h2>Home</h2>
+            <p>
+                <input type="checkbox" id="auth" name="auth" value="Remember Me" aria-checked="false">
+                <label for="auth">Remember Me</label>
+            </p>
+            <p>
+                <a href="cookie-about.html"><button name="about-btn" class="bubble-button">About</button></a>
+            </p>  
+        </main>
+    </body>
+</html>

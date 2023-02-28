@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"></meta>
+        <!--
+            Author: Nathaniel Han
+            Date: February 27 2023
+        -->
+        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>5-1: Cookie Handling - About</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32"><!-- 32×32 -->
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bubbles.css">
+        <script src="/js/bubbles.js"></script>
+        <script src="/js/cookieHandler.js"></script>
+        <script>
+            function pageLoad() {
+                // Get the cookie the tracks how many times the homepage has been visited and display it.
+                let homeHitsDisplay = document.querySelector("#homepage-hits-display");
+                let homeHits = getCookie("homeHits") || "0";
+                homeHitsDisplay.innerHTML = homeHits;
+
+                // Display the date/time the homepage was last visited.
+                let visitTimeDisplay = document.querySelector("#homepage-visit-time-display");
+                let visitTime = getCookie("visitTime");
+                if(visitTime) {
+                    visitTimeDate = new Date(visitTime);
+                    visitTimeDisplay.innerHTML = visitTimeDate.toTimeString();
+                }
+
+                // Display if the user has been authenticated.
+                let authExpirationDisplay = document.querySelector("#auth-expiration-display");
+                let authMessage = document.querySelector("#auth-message");
+                let authExpiration = getCookie("authExpiration");
+                if(authExpiration) {
+                    let expirationDate = new Date(authExpiration);
+                    authExpirationDisplay.innerHTML = expirationDate.toDateString();
+                    authMessage.classList.remove("hidden");
+                }
+
+                // Reset all cookies.
+                let resetBtn = document.querySelector("button[name=reset-btn]");
+                resetBtn.onclick = function() {
+                    deleteCookie("homeHits");
+                    deleteCookie("visitTime");
+                    deleteCookie("authExpiration");
+                    homeHitsDisplay.innerHTML = "0";
+                    visitTimeDisplay.innerHTML = "";
+                    authMessage.classList.add("hidden");
+                    authExpirationDisplay.innerHTML = "";
+                };
+            }
+        </script>
+    </head>
+    <body onload="themeLoad(); pageLoad();">
+        <div class="body-bg"></div>
+        <nav>
+            <div class="site-logo">
+                <a href="/" aria-label="Return to the home page">
+                    <lottie-player role="img" aria-label="NGH logo" autoplay mode="normal" src="/img/ngh-logo.json"></lottie-player>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../wdv321Homework.html">&lt; Back</a>
+            </div>
+        </nav>
+        <main>
+            <h1>WDV 321 | 5-1: Cookie Handling</h1>
+            <h2>About</h2>
+            <p>
+                Number of Homepage Hits: <span id="homepage-hits-display"></span><br>
+                Time of Last Homepage Visit: <span id="homepage-visit-time-display"></span><br>
+                <span id="auth-message" class="hidden">Authenticated Page until: <span id="auth-expiration-display"></span></span>
+            </p>
+            <p>
+                <a href="cookie-home.html"><button name="cta-home" class="bubble-button">Home</button></a>
+                <button name="reset-btn" class="bubble-button">Reset Cookies</button>
+            </p>
+        </main>
+    </body>
+</html>
