@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"></meta>
+        <!--
+            Author: Nathaniel Han
+            Date: March 10 2023
+        -->
+        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>6-1: Demonstrate Local Storage - About</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32"><!-- 32×32 -->
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bubbles.css">
+        <script src="/js/bubbles.js"></script>
+        <script src="/js/cookieHandler.js"></script>
+        <script>
+            function pageLoad() {
+                let userDataJSON = localStorage.getItem("userData");
+                let userData = null;
+                let today = new Date();
+                let visitTime = today.toUTCString();
+                if (userDataJSON) {
+                    try {
+                        userData = JSON.parse(userDataJSON);
+                    } catch(e) {
+                        console.log(e.message);
+                        let displayMessage = document.querySelector("#display-message");
+                        displayMessage.innerHTML = "This page has encountered an error accessing the browser's local storage."
+                    }
+                } else {
+                    userData = {
+                        "home-visit-count": 0,
+                        "last-home-visit-time": null,
+                        "about-visit-count": 0,
+                        "last-about-visit-time": null
+                    };
+                }
+
+                let homeHitsDisplay = document.querySelector("#home-hits-display");
+                let homeVisitTimeDisplay = document.querySelector("#home-visit-time-display");
+                let aboutHitsDisplay = document.querySelector("#about-hits-display");
+                let aboutVisitTimeDisplay = document.querySelector("#about-visit-time-display");
+
+                if (userData) {
+                    userData["about-visit-count"]++;
+                    userData["last-about-visit-time"] = visitTime;
+
+                    homeHitsDisplay.innerHTML = userData["home-visit-count"];
+                    homeVisitTimeDisplay.innerHTML = userData["last-home-visit-time"];
+                    aboutHitsDisplay.innerHTML = userData["about-visit-count"];
+                    aboutVisitTimeDisplay.innerHTML = userData["last-about-visit-time"];
+                }
+                
+                localStorage.setItem("userData", JSON.stringify(userData));
+
+                let clearButton = document.querySelector("button[name='clear-btn']");
+                clearButton.onclick = function() {
+                    localStorage.clear();
+
+                    homeHitsDisplay.innerHTML = "0";
+                    homeVisitTimeDisplay.innerHTML = "";
+                    aboutHitsDisplay.innerHTML = "0";
+                    aboutVisitTimeDisplay.innerHTML = "";
+                };
+            }
+        </script>
+    </head>
+    <body onload="themeLoad(); pageLoad();">
+        <div class="body-bg"></div>
+        <nav>
+            <div class="site-logo">
+                <a href="/" aria-label="Return to the home page">
+                    <lottie-player role="img" aria-label="NGH logo" autoplay mode="normal" src="/img/ngh-logo.json"></lottie-player>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../wdv321Homework.html">&lt; Back</a>
+            </div>
+        </nav>
+        <main>
+            <h1>WDV 321 | 6-1: Demonstrate Local Storage</h1>
+            <h2>About</h2>
+            <p id="display-message"></p>
+            <p>
+                Number of Homepage Hits: <span id="home-hits-display"></span><br>
+                Time of Last Homepage Visit: <span id="home-visit-time-display"></span><br>
+                Number of About Page Hits: <span id="about-hits-display"></span><br>
+                Time of Last About Page Visit: <span id="about-visit-time-display"></span><br>
+            </p>
+            <p>
+                <a href="local-storage-home.html"><button name="home-btn" class="bubble-button">Home</button></a>
+                <button name="clear-btn" class="bubble-button">Clear Local Storage</button>
+            </p>
+        </main>
+    </body>
+</html>

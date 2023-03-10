@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"></meta>
+        <!--
+            Author: Nathaniel Han
+            Date: March 10 2023
+        -->
+        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>6-1: Demonstrate Local Storage - Home</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32"><!-- 32×32 -->
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bubbles.css">
+        <script src="/js/bubbles.js"></script>
+        <script src="/js/cookieHandler.js"></script>
+        <script>
+            function pageLoad() {
+                let userDataJSON = localStorage.getItem("userData");
+                let userData = null;
+                let today = new Date();
+                let visitTime = today.toUTCString();
+                if (userDataJSON) {
+                    try {
+                        userData = JSON.parse(userDataJSON);
+                    } catch(e) {
+                        console.log(e.message);
+                        let displayMessage = document.querySelector("#display-message");
+                        displayMessage.innerHTML = "This page has encountered an error accessing the browser's local storage."
+                    }
+                } else {
+                    userData = {
+                        "home-visit-count": 0,
+                        "last-home-visit-time": null,
+                        "about-visit-count": 0,
+                        "last-about-visit-time": null
+                    };
+                }
+
+                if (userData) {
+                    userData["home-visit-count"]++;
+                    userData["last-home-visit-time"] = visitTime;
+                }
+                
+                localStorage.setItem("userData", JSON.stringify(userData));
+            }
+        </script>
+    </head>
+    <body onload="themeLoad(); pageLoad();">
+        <div class="body-bg"></div>
+        <nav>
+            <div class="site-logo">
+                <a href="/" aria-label="Return to the home page">
+                    <lottie-player role="img" aria-label="NGH logo" autoplay mode="normal" src="/img/ngh-logo.json"></lottie-player>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../wdv321Homework.html">&lt; Back</a>
+            </div>
+        </nav>
+        <main>
+            <h1>WDV 321 | 6-1: Demonstrate Local Storage</h1>
+            <h2>Home</h2>
+            <p id="display-message"></p>
+            <p>
+                <a href="local-storage-about.html"><button name="about-btn" class="bubble-button">About</button></a>
+            </p>  
+        </main>
+    </body>
+</html>
