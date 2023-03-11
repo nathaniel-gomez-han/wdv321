@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"></meta>
+        <!--
+            Author: Nathaniel Han
+            Date: March 10 2023
+        -->
+        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>7-1: AJAX Consume JSON Objects</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32"><!-- 32×32 -->
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/bubbles.css">
+        <style>
+            #student-data-table {
+                width: 100%;
+                text-align: center;
+            }
+        </style>
+        <script src="/js/bubbles.js"></script>
+        <script src="/js/cookieHandler.js"></script>
+        <script>
+            function pageLoad() {
+                let loadButton = document.querySelector("#load-btn");
+                loadButton.onclick = loadStudentData;
+            }
+
+            function loadStudentData() {
+                let studentIDList = [
+                    900006361,
+                    900668871,
+                    903998004
+                ];
+
+                let table = document.querySelector("#student-data-table tbody");
+                table.innerHTML = "";
+
+                for (let i = 0; i < studentIDList.length; i++) {
+                    loadDoc(studentIDList[i] + ".js", function(xhttp) {
+                        let studentData = null;
+                        try {
+                            studentData = JSON.parse(xhttp.responseText);
+                        } catch(e) {
+                            console.log(e.message);
+                        }
+
+                        if (studentData) {
+                            let studentRow = "";
+                            studentRow += "<tr>";
+                            studentRow += "<td>" + studentData.student_id + "</td>";
+                            studentRow += "<td>" + studentData.student_first_name + "</td>";
+                            studentRow += "<td>" + studentData.student_last_name + "</td>";
+                            studentRow += "<td>" + studentData.student_major + "</td>";
+                            studentRow += "<td>" + studentData.student_credits + "</td>";
+                            studentRow += "<td>" + studentData.student_gpa + "</td>";
+                            studentRow += "<td>" + studentData.student_registration_date + "</td>";
+                            studentRow += "</tr>";
+
+                            table.innerHTML += studentRow;
+                        }
+                    });
+                }
+            }
+
+            function loadDoc(url, cFunction) {
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    cFunction(this);
+                }
+                xhttp.open("GET", url);
+                xhttp.send();
+            }
+        </script>
+    </head>
+    <body onload="themeLoad(); pageLoad();">
+        <div class="body-bg"></div>
+        <nav>
+            <div class="site-logo">
+                <a href="/" aria-label="Return to the home page">
+                    <lottie-player role="img" aria-label="NGH logo" autoplay mode="normal" src="/img/ngh-logo.json"></lottie-player>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../wdv321Homework.html">&lt; Back</a>
+            </div>
+        </nav>
+        <main>
+            <h1>WDV 321 | 7-1: AJAX Consume JSON Objects</h1>
+            <p>
+                <button id="load-btn" class="bubble-button">Load Student Data</button>
+            </p>
+            <table id="student-data-table" class="database-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Major</th>
+                        <th>Completed Credits</th>
+                        <th>Cumulative GPA</th>
+                        <th>Registration Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </main>
+    </body>
+</html>
