@@ -1,28 +1,19 @@
 import './App.css';
+import React from 'react';
 
 function App() {
-	let todoListItems = [
-		'Laundry',
-		'Dishes',
-		'Sweep the floor',
-		'Feed my cats',
-		'Clean the shower',
-		'Random task A',
-		'Another task'
-	];
+	const [listItems, setListItems] = React.useState([]);
 
 	return (
 		<div>
 			<ul>
 				{
-					todoListItems.map((item, i) => <li key={i}>{item}</li>)
+					listItems.map((item, i) => <li key={i}>{item}</li>)
 				}
 			</ul>
 			<input
-				onMouseOver={(event) => {
-					console.log('moused over!');
-				}}
 				onChange={(event) => {
+					setListItems([event.target.value]);
 					console.log(event.target.value);
 				}}
 
