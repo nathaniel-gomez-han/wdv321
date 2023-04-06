@@ -1,4 +1,5 @@
 import './App.css';
+import ListItem from './ListItem';
 import React from 'react';
 
 function App() {
@@ -18,7 +19,14 @@ function App() {
 		<div>
 			<ul>
 				{
-					listItems.map((item, i) => <li key={i}>{item}</li>)
+					listItems.map((item, i) => {
+						return (
+							<ListItem
+								key={i}
+								item={item}
+							/>
+						)
+					})
 				}
 			</ul>
 			<input
