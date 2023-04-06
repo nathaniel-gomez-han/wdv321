@@ -2,7 +2,10 @@ import './App.css';
 import React from 'react';
 
 function App() {
+	const [userEnteredTodo, setUserEnteredTodo] = React.useState();
 	const [listItems, setListItems] = React.useState([]);
+
+	console.log(userEnteredTodo);
 
 	return (
 		<div>
@@ -13,11 +16,20 @@ function App() {
 			</ul>
 			<input
 				onChange={(event) => {
-					setListItems([event.target.value]);
+					setUserEnteredTodo([event.target.value]);
 					console.log(event.target.value);
 				}}
 
 			/>
+			<button
+				onClick={() => {
+					console.log('click');
+					setListItems([
+						...listItems,
+						userEnteredTodo
+					]);
+				}}
+				>Add</button>
 		</div>
 	);
 }
