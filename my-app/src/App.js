@@ -3,7 +3,7 @@ import ListItem from './ListItem';
 import React from 'react';
 
 function App() {
-	const [userEnteredTodo, setUserEnteredTodo] = React.useState();
+	const [userEnteredTodo, setUserEnteredTodo] = React.useState('');
 	const [listItems, setListItems] = React.useState([]);
 
 	const saveItemAndClearInput = () => {
@@ -12,7 +12,11 @@ function App() {
 			userEnteredTodo
 		]);
 
-		setUserEnteredTodo("");
+		setUserEnteredTodo('');
+	}
+
+	const deleteItem = (i) => {
+		setListItems([].concat(listItems.slice(0, i), listItems.slice(i+1, listItems.length)));
 	}
 
 	return (
@@ -23,7 +27,9 @@ function App() {
 						return (
 							<ListItem
 								key={i}
+								index={i}
 								item={item}
+								onDelete={deleteItem}
 							/>
 						)
 					})
@@ -32,10 +38,9 @@ function App() {
 			<input
 				onChange={(event) => {
 					setUserEnteredTodo([event.target.value]);
-					console.log(event.target.value);
 				}}
 				onKeyDown={(event) => {
-					if (event.code === "Enter") {
+					if (event.code === 'Enter') {
 						saveItemAndClearInput();
 					}
 				}}

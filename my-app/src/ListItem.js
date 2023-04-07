@@ -1,13 +1,16 @@
 import React from 'react';
 import './ListItem.css';
 
-const ListItem = (props) => {
-	const {item} = props;
-
+const ListItem = ({index, item, onDelete}) => {
 	return (
 		<li>
-			<div>{item}</div>
-			<button>Delete</button>
+			<span>{item}</span>
+			<button
+				value={index}
+				onClick={() => {
+					onDelete(index);
+				}}
+			>Delete</button>
 		</li>
 	)
 }
