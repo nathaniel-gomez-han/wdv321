@@ -15,21 +15,18 @@ function App() {
 		setUserEnteredTodo('');
 	}
 
-	const deleteItem = (i) => {
-		setListItems([].concat(listItems.slice(0, i), listItems.slice(i+1, listItems.length)));
-	}
-
 	return (
 		<div>
 			<ul>
 				{
-					listItems.map((item, i) => {
+					listItems.map((item, index) => {
 						return (
 							<ListItem
-								key={i}
-								index={i}
+								key={index}
+								index={index}
 								item={item}
-								onDelete={deleteItem}
+								listItems={listItems}
+								setListItems={setListItems}
 							/>
 						)
 					})
