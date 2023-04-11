@@ -1,5 +1,6 @@
 import './App.css';
 import ListItem from './ListItem';
+import Input from './Input';
 import React from 'react';
 
 function App() {
@@ -19,11 +20,11 @@ function App() {
 		<div>
 			<ul>
 				{
-					listItems.map((item, index) => {
+					listItems.map((item, i) => {
 						return (
 							<ListItem
-								key={index}
-								index={index}
+								key={i}
+								index={i}
 								item={item}
 								listItems={listItems}
 								setListItems={setListItems}
@@ -32,7 +33,9 @@ function App() {
 					})
 				}
 			</ul>
-			<input
+			<Input
+				id={'input-id'}
+				name={'user-entered=todo'}
 				onChange={(event) => {
 					setUserEnteredTodo([event.target.value]);
 				}}
