@@ -1,7 +1,10 @@
 import React from 'react';
 import './ListItem.css';
 
-const ListItem = ({index, item, listItems, setListItems}) => {
+const ListItem = (props) => {
+	const {index, item, listItems, setListItems} = props;
+	const [showDeleteButton, setShowDeleteButton] = React.useState(false);
+
 	const removeListItem = (index) => {
 		setListItems([
 			...listItems.slice(0, index),
@@ -9,15 +12,29 @@ const ListItem = ({index, item, listItems, setListItems}) => {
 		]);
 	}
 
+	const handleMouseEnter = () => {
+		setShowDeleteButton(true);
+	}
+
+	const handleMouseLeave = () => {
+		setShowDeleteButton(false);
+	}
+
 	return (
-		<li>
+		<li
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
+		>
 			<span>{item}</span>
-			<button
-				value={index}
-				onClick={() => {
-					removeListItem(index);
-				}}
-			>Delete</button>
+			{showDeleteButton ?
+				<button
+					value={index}
+					onClick={() => {
+						removeListItem(index);
+					}}
+				>Delete</button>
+				: null
+			}
 		</li>
 	)
 }
